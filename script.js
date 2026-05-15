@@ -2,10 +2,21 @@
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 // ── DOM Elements ─────────────────────────────────────────────
-const searchBtn    = document.getElementById('search-btn');
-const cityInput    = document.getElementById('city-input');
-const weatherCard  = document.getElementById('weather-card');
-const errorMsg     = document.getElementById('error-msg');
+const searchBtn   = document.getElementById('search-btn');
+const cityInput   = document.getElementById('city-input');
+const weatherCard = document.getElementById('weather-card');
+const errorMsg    = document.getElementById('error-msg');
+
+// ── Loading State ─────────────────────────────────────────────
+function setLoading(isLoading) {
+  if (isLoading) {
+    searchBtn.textContent = 'Loading...';
+    searchBtn.disabled = true;
+  } else {
+    searchBtn.textContent = 'Search';
+    searchBtn.disabled = false;
+  }
+}
 
 // ── Weather Icon Map ──────────────────────────────────────────
 function getWeatherEmoji(iconCode) {
@@ -66,6 +77,8 @@ function renderWeather(data) {
 
 // ── Fetch Weather Data ────────────────────────────────────────
 async function fetchWeather(city) {
+  setLoading(true);
+
   try {
     const url = `${BASE_URL}?q=${city}&appid=${API_KEY}&units=metric`;
     const response = await fetch(url);
@@ -73,6 +86,7 @@ async function fetchWeather(city) {
 
     if (data.cod === 200) {
       renderWeather(data);
+      cityInput.value = '';
     } else if (data.cod === '404') {
       showError('City not found. Please check the spelling and try again.');
     } else if (data.cod === 401) {
@@ -84,6 +98,8 @@ async function fetchWeather(city) {
   } catch (error) {
     showError('Network error. Please check your internet connection.');
     console.error('Fetch error:', error);
+  } finally {
+    setLoading(false);
   }
 }
 

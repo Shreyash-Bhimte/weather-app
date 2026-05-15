@@ -228,3 +228,15 @@ body {
     gap: 16px;
   }
 }
+
+/* ── Hidden State ───────────────────────────────────────────── */
+.weather-card {
+  display: none;
+}
+
+/* ── Loading State ──────────────────────────────────────────── */
+.search-box button:disabled {
+  background: #888;
+  cursor: not-allowed;
+  transform: none;
+}
