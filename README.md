@@ -29,13 +29,15 @@ Search any city and get live weather data including temperature, humidity, wind 
 ---
 
 ## Project Structure
+
+```
 weather-app/
 ├── index.html       # App structure and layout
 ├── style.css        # Styling and responsive design
 ├── script.js        # API calls, data rendering, error handling
 ├── config.js        # API key — not tracked by git (see .gitignore)
 └── README.md        # You are here
----
+```
 
 ## Run Locally
 
