@@ -1,4 +1,5 @@
 // ── Config ───────────────────────────────────────────────────
+const API_KEY = '0f85244d97884fb27389f022003ca83d';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 // ── DOM Elements ─────────────────────────────────────────────
