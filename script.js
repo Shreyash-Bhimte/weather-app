@@ -2,46 +2,56 @@
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 // ── DOM Elements ─────────────────────────────────────────────
-const searchBtn = document.getElementById('search-btn');
-const cityInput = document.getElementById('city-input');
-const weatherCard = document.getElementById('weather-card');
-const errorMsg = document.getElementById('error-msg');
+const searchBtn    = document.getElementById('search-btn');
+const cityInput    = document.getElementById('city-input');
+const weatherCard  = document.getElementById('weather-card');
+const errorMsg     = document.getElementById('error-msg');
 
 // ── Weather Icon Map ──────────────────────────────────────────
 function getWeatherEmoji(iconCode) {
   const iconMap = {
-    '01d': '☀️',  // clear sky day
-    '01n': '🌙',  // clear sky night
-    '02d': '⛅',  // few clouds day
-    '02n': '☁️',  // few clouds night
-    '03d': '☁️',  // scattered clouds
+    '01d': '☀️',
+    '01n': '🌙',
+    '02d': '⛅',
+    '02n': '☁️',
+    '03d': '☁️',
     '03n': '☁️',
-    '04d': '☁️',  // broken clouds
+    '04d': '☁️',
     '04n': '☁️',
-    '09d': '🌧️',  // shower rain
+    '09d': '🌧️',
     '09n': '🌧️',
-    '10d': '🌦️',  // rain day
-    '10n': '🌧️',  // rain night
-    '11d': '⛈️',  // thunderstorm
+    '10d': '🌦️',
+    '10n': '🌧️',
+    '11d': '⛈️',
     '11n': '⛈️',
-    '13d': '❄️',  // snow
+    '13d': '❄️',
     '13n': '❄️',
-    '50d': '🌫️',  // mist
+    '50d': '🌫️',
     '50n': '🌫️',
   };
-
   return iconMap[iconCode] || '🌡️';
+}
+
+// ── Show Error ────────────────────────────────────────────────
+function showError(message) {
+  errorMsg.textContent = message;
+  weatherCard.style.display = 'none';
+}
+
+// ── Clear Error ───────────────────────────────────────────────
+function clearError() {
+  errorMsg.textContent = '';
 }
 
 // ── Render Weather Data ───────────────────────────────────────
 function renderWeather(data) {
-  const cityName     = data.name;
-  const country      = data.sys.country;
-  const temp         = Math.round(data.main.temp);
-  const humidity     = data.main.humidity;
-  const windSpeed    = Math.round(data.wind.speed * 3.6); // m/s → km/h
-  const condition    = data.weather[0].description;
-  const iconCode     = data.weather[0].icon;
+  const cityName  = data.name;
+  const country   = data.sys.country;
+  const temp      = Math.round(data.main.temp);
+  const humidity  = data.main.humidity;
+  const windSpeed = Math.round(data.wind.speed * 3.6);
+  const condition = data.weather[0].description;
+  const iconCode  = data.weather[0].icon;
 
   document.getElementById('city-name').textContent    = `${cityName}, ${country}`;
   document.getElementById('temperature').textContent  = `${temp}°C`;
@@ -51,20 +61,29 @@ function renderWeather(data) {
   document.getElementById('weather-icon').textContent = getWeatherEmoji(iconCode);
 
   weatherCard.style.display = 'flex';
-  errorMsg.textContent = '';
+  clearError();
 }
 
 // ── Fetch Weather Data ────────────────────────────────────────
 async function fetchWeather(city) {
-  const url = `${BASE_URL}?q=${city}&appid=${API_KEY}&units=metric`;
+  try {
+    const url = `${BASE_URL}?q=${city}&appid=${API_KEY}&units=metric`;
+    const response = await fetch(url);
+    const data = await response.json();
 
-  const response = await fetch(url);
-  const data = await response.json();
+    if (data.cod === 200) {
+      renderWeather(data);
+    } else if (data.cod === '404') {
+      showError('City not found. Please check the spelling and try again.');
+    } else if (data.cod === 401) {
+      showError('Invalid API key. Please check your config.js file.');
+    } else {
+      showError('Something went wrong. Please try again.');
+    }
 
-  console.log('API Response:', data);
-
-  if (data.cod === 200) {
-    renderWeather(data);
+  } catch (error) {
+    showError('Network error. Please check your internet connection.');
+    console.error('Fetch error:', error);
   }
 }
 
@@ -72,7 +91,10 @@ async function fetchWeather(city) {
 function handleSearch() {
   const city = cityInput.value.trim();
 
-  if (city === '') return;
+  if (city === '') {
+    showError('Please enter a city name.');
+    return;
+  }
 
   fetchWeather(city);
 }
