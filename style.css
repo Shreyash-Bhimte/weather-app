@@ -163,3 +163,68 @@ body {
   font-weight: 600;
   color: #ffffff;
 }
+
+/* ── Responsive Design ──────────────────────────────────────── */
+
+/* Tablet and below (max 480px) */
+@media (max-width: 480px) {
+
+  .container {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .app-title {
+    font-size: 1.6rem;
+  }
+
+  .search-box input {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+
+  .search-box button {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+
+  .weather-card {
+    padding: 24px 16px;
+  }
+
+  .city-name {
+    font-size: 1.3rem;
+  }
+
+  .weather-icon {
+    font-size: 4rem;
+  }
+
+  .temperature {
+    font-size: 2.8rem;
+  }
+
+  .details {
+    gap: 24px;
+  }
+
+  .detail-value {
+    font-size: 1rem;
+  }
+}
+
+/* Very small screens (max 320px) */
+@media (max-width: 320px) {
+
+  .app-title {
+    font-size: 1.4rem;
+  }
+
+  .temperature {
+    font-size: 2.4rem;
+  }
+
+  .details {
+    gap: 16px;
+  }
+}
