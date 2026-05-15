@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- App Title -->
+      <h1 class="app-title">Weather App</h1>
+
+      <!-- Search Section -->
+      <div class="search-box">
+        <input
+          type="text"
+          id="city-input"
+          placeholder="Enter city name..."
+          autocomplete="off"
+        />
+        <button id="search-btn">Search</button>
+      </div>
+
+      <!-- Error Message (hidden by default) -->
+      <p class="error-message" id="error-msg"></p>
+
+      <!-- Weather Card (hidden by default) -->
+      <div class="weather-card" id="weather-card">
+
+        <!-- City Name + Country -->
+        <h2 class="city-name" id="city-name">London, GB</h2>
+
+        <!-- Weather Icon/Emoji -->
+        <div class="weather-icon" id="weather-icon">⛅</div>
+
+        <!-- Weather Condition -->
+        <p class="condition" id="condition">Partly Cloudy</p>
+
+        <!-- Temperature -->
+        <p class="temperature" id="temperature">22°C</p>
+
+        <!-- Extra Details -->
+        <div class="details">
+          <div class="detail-item">
+            <span class="detail-label">Humidity</span>
+            <span class="detail-value" id="humidity">60%</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Wind Speed</span>
+            <span class="detail-value" id="wind-speed">14 km/h</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
